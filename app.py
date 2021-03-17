@@ -4,6 +4,7 @@ import dash_html_components as html
 import plotly.express as px
 import pandas as pd
 import os
+import csv
 
 
 
@@ -12,7 +13,18 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
-data1 = pd.read_csv("/Users/alexandercampbell/OneDrive/Projects/rxcrunning/codes/data1.csv",na_values="--")
+url = "https://drive.google.com/file/d/1jEaEJOgCl_1iqRl9N2jBca1evcc7ji7n/view?usp=sharing"
+path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+data1 = pd.read_csv(path)
+
+
+#with open('codes/data1.csv', newline='') as f:
+#  reader = csv.reader(f)
+#  for row in reader:
+#    print(row)
+
+
+#data1 = pd.read_csv("/Users/alexandercampbell/OneDrive/Projects/rxcrunning/codes/Garmin_running.csv",na_values="--")
 
 # Remove data 
 data1.drop(columns=['Favorite','Flow','Grit','Min Temp','Surface Interval','Decompression','Max Temp','Bottom Time'],inplace=True)
@@ -50,10 +62,11 @@ def foo2(arg):
     
 data1[time_vars] = data1[time_vars].applymap(lambda x: foo2(x))
 
-for i in time_vars:
-    data1[i] = pd.to_timedelta(data1[i])
+#for i in time_vars:
+    #data1[i] = pd.to_timedelta(data1[i])
     
 # Filter only running 
+
 data1 = data1[data1['Activity Type']=="Running"]
 
 fig = px.bar(data1, x="Date", y="Time")

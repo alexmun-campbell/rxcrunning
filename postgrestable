@@ -1,0 +1,92 @@
+import psycopg2
+from config import config
+
+
+def create_tables():
+    """ create tables in the PostgreSQL database"""
+    commands = (
+        """
+        CREATE TABLE main (
+            Activity varchar(40),
+            Date date,
+            Favorite varchar(40),
+            Title varchar(40),
+            Distance numeric,
+            Calories numeric,
+            Time varchar(40),
+            Average_heart_rate numeric,
+            Maximum_herat_rate numeric,
+            Aerobic_TE numeric,
+            Average_run_cadence numeric,
+            Max_run_cadence numeric,
+            Average_pace varchar(40),
+            Best_pace varchar(40),
+            Elevation_gain numeric,
+            Elevation_loss numeric,
+            Average_stride_length numeric,
+            Average_vertical_ratio numeric,
+            Average_vertical_oscillation numeric,
+            Average_ground_contact_time numeric,
+            Average_GCT_balance varchar(40),
+            Training_stress_score numeric,
+            Grit numeric,
+            Flow numeric,
+            Climb_time varchar(40),
+            Bottom_time varchar(40),
+            Min_temp numeric,
+
+
+
+        )
+        """,
+        """ CREATE TABLE parts (
+                part_id SERIAL PRIMARY KEY,
+                part_name VARCHAR(255) NOT NULL
+                )
+        """,
+        """
+        CREATE TABLE part_drawings (
+                part_id INTEGER PRIMARY KEY,
+                file_extension VARCHAR(5) NOT NULL,
+                drawing_data BYTEA NOT NULL,
+                FOREIGN KEY (part_id)
+                REFERENCES parts (part_id)
+                ON UPDATE CASCADE ON DELETE CASCADE
+        )
+        """,
+        """
+        CREATE TABLE vendor_parts (
+                vendor_id INTEGER NOT NULL,
+                part_id INTEGER NOT NULL,
+                PRIMARY KEY (vendor_id , part_id),
+                FOREIGN KEY (vendor_id)
+                    REFERENCES vendors (vendor_id)
+                    ON UPDATE CASCADE ON DELETE CASCADE,
+                FOREIGN KEY (part_id)
+                    REFERENCES parts (part_id)
+                    ON UPDATE CASCADE ON DELETE CASCADE
+        )
+        """)
+    conn = None
+    try:
+        # read the connection parameters
+        params = config()
+        # connect to the PostgreSQL server
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        # create table one by one
+        for command in commands:
+            cur.execute(command)
+        # close communication with the PostgreSQL database server
+        cur.close()
+        # commit the changes
+        conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+
+if __name__ == '__main__':
+    create_tables()

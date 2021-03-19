@@ -1,16 +1,7 @@
-import dash
-import dash_core_components as dcc
-import dash_html_components as html
-from dash.dependencies import Input, Output
-import plotly.express as px
+# This script gets the data from google drive, and processes it so that i can make nice charts 
+
 import pandas as pd
-import os
 import csv
-
-
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 url = "https://drive.google.com/file/d/1jEaEJOgCl_1iqRl9N2jBca1evcc7ji7n/view?usp=sharing"
 path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
@@ -61,27 +52,4 @@ for i in time_vars:
 # Filter only running 
 data1 = data1[data1['Activity Type']=="Running"]
 
-styles = {
-    'pre': {
-        'border': 'thin lightgrey solid',
-        'overflowX': 'scroll'
-    }
-}
-
-
-server = app.server
-
-
-fig = px.bar(data1[data1['Date']>'2020-01-01'], x="Date", y="Time")
-
-app.layout = html.Div(children=[
-    html.H1(children='Roderick Campbell\'s Running Log'),
-
-    dcc.Graph(
-        id='example-graph',
-        figure=fig
-    )
-])
-
-if __name__ == '__main__':
-    app.run_server(debug=True)
+print("hello world")

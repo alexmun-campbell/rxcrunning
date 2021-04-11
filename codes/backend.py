@@ -52,4 +52,4 @@ for i in time_vars:
 # Filter only running 
 data1 = data1[data1['Activity Type']=="Running"]
 
-print("hello world")
+return(data1)

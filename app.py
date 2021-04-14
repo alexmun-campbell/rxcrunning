@@ -7,7 +7,6 @@ import pandas as pd
 import os
 import csv
 
-# this is a test
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -72,7 +71,7 @@ styles = {
 server = app.server
 
 
-fig = px.bar(data1[data1['Date']>'2020-01-01'], x="Date", y="Time")
+fig = px.bar(data1[data1['Date']>'2020-09-01'], x="Date", y="Time")
 
 app.layout = html.Div(children=[
     html.H1(children='Roderick Campbell\'s Running Log'),

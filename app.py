@@ -71,7 +71,7 @@ styles = {
 server = app.server
 
 
-fig = px.bar(data1[data1['Date']>'2020-09-09'], x="Date", y="Time")
+fig = px.bar(data1[data1['Date']>'2020-09-07'], x="Date", y="Time")
 
 app.layout = html.Div(children=[
     html.H1(children='Roderick Campbell\'s Running Log'),
